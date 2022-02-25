@@ -65,7 +65,7 @@ const validateLogin = async (req, res, next) => {
       });
       next();
     } else if (!name) {
-      next({ status: 401, message: "invalid name" });
+      next({ status: 401, message: "invalid credentials" });
     } else {
       req.username = username;
       req.password = password;

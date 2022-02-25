@@ -14,18 +14,6 @@ const create = async (user) => {
   return newUser;
 };
 
-// const create = async (project) => {
-//   const newProject = await db("projects")
-//     .insert(project)
-//     .then(([project_id]) => {
-//       return db("projects").where("project_id", project_id).first();
-//     });
-//   return {
-//     ...newProject,
-//     project_completed: newProject.project_completed ? true : false,
-//   };
-// };
-
 module.exports = {
   findByName,
   create,
