@@ -1,22 +1,21 @@
 //const bcrypt = require("bcryptjs");
-const Users = require('../users/users-model')
+const Users = require("../users/users-model");
 
 //VALIDATE REGISTRATION
 
 const validateRegistration = async (req, res, next) => {
   try {
-    const { username, password } =  req.body;
-    const name = await Users.findBy(username);
+    const { username, password } = req.body;
+    const name = await Users.findByName(username);
     if (!username || !username.trim() || !password || !password.trim()) {
       res.status(400).json({
         message: "username and password required",
       });
     } else if (name) {
-         res.status(400).json({
-           message: "username taken",
-         });
-    }
-    else {
+      res.status(400).json({
+        message: "username taken",
+      });
+    } else {
       req.username = username;
       req.password = password;
       next();
