@@ -58,12 +58,14 @@ const validateRegistration = async (req, res, next) => {
 const validateLogin = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    //const name = await Users.findByName(username);
+    const name = await Users.findByName(username);
     if (!username || !username.trim() || !password || !password.trim()) {
       res.status(400).json({
         message: "username and password required",
       });
       next();
+    } else if (!name) {
+      next({ status: 401, message: "invalid name" });
     } else {
       req.username = username;
       req.password = password;
