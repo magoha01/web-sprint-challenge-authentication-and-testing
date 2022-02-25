@@ -8,7 +8,6 @@ const Users = require("../users/users-model");
 const buildToken = (user) => {
   const payload = {
     subject: user.id,
-    role_name: user.role_name,
     username: user.user_name,
   };
   const options = {

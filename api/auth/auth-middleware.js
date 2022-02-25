@@ -76,10 +76,6 @@ const validateLogin = async (req, res, next) => {
   }
 };
 
-//  else if (bcrypt.compareSync(password) !== password || !name) {
-//       next({ status: 401, message: "invalid credentials" });
-//     }
-
 /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
