@@ -1,4 +1,4 @@
-//const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const Users = require("../users/users-model");
 
 //VALIDATE REGISTRATION
@@ -11,10 +11,12 @@ const validateRegistration = async (req, res, next) => {
       res.status(400).json({
         message: "username and password required",
       });
+      next();
     } else if (name) {
       res.status(400).json({
         message: "username taken",
       });
+      next();
     } else {
       req.username = username;
       req.password = password;
@@ -53,9 +55,28 @@ const validateRegistration = async (req, res, next) => {
 
 //VALIDATE LOGIN
 
-// const validateLogin = (req, res, next) => {
-//   next();
-// };
+const validateLogin = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    //const name = await Users.findByName(username);
+    if (!username || !username.trim() || !password || !password.trim()) {
+      res.status(400).json({
+        message: "username and password required",
+      });
+      next();
+    } else {
+      req.username = username;
+      req.password = password;
+      next();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+//  else if (bcrypt.compareSync(password) !== password || !name) {
+//       next({ status: 401, message: "invalid credentials" });
+//     }
 
 /*
     IMPLEMENT
@@ -83,5 +104,5 @@ const validateRegistration = async (req, res, next) => {
 
 module.exports = {
   validateRegistration,
-  //validateLogin,
+  validateLogin,
 };
