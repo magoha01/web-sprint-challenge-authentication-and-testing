@@ -1,4 +1,4 @@
 // Write your tests here
-test("sanity", () => {
-  expect(process.env.DB_ENV).not.toBe(false);
+test("sanity check", () => {
+  expect(process.env.NODE_ENV).toBe("testing");
 });
