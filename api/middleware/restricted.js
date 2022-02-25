@@ -17,23 +17,6 @@ module.exports = (req, res, next) => {
   }
 };
 
-// try {
-
-//   if (token) {
-//     jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-//       if (err) {
-//         next({ status: 401, message: "Token invalid" });
-//       } else {
-//         req.decodedToken = decodedToken;
-//         next();
-//       }
-//     });
-//   } else {
-//     next({ status: 401, message: "token required" });
-//   }
-// } catch (err) {
-//   next(err);
-// }
 /*
     IMPLEMENT
 
