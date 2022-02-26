@@ -29,7 +29,6 @@ describe("[POST] /api/auth/register", () => {
     const jack = await db("users").where("username", "jack").first();
     expect(bcrypt.compareSync("1234", jack.password)).toBeTruthy();
   }, 750);
-
 });
 
 describe("[POST] /api/auth//login", () => {
@@ -41,6 +40,9 @@ describe("[POST] /api/auth//login", () => {
   }, 750);
 });
 
-// describe('[GET] /api/jokes', () => {
-
-// })
+describe("[GET] /api/jokes", () => {
+  it("[17] requests without a token given invalid token message with 401", async () => {
+    const res = await request(server).get("/api/jokes");
+    expect(res.body.message).toMatch(/token required/i);
+  }, 750);
+});
