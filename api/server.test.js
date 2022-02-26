@@ -29,6 +29,12 @@ describe("[POST] /api/auth/register", () => {
     const jack = await db("users").where("username", "jack").first();
     expect(bcrypt.compareSync("1234", jack.password)).toBeTruthy();
   }, 750);
+  it("[16] responds with proper status on success", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send({ username: "bob", password: "1234" });
+    expect(res.status).toBe(201);
+  }, 750);
 });
 
 describe("[POST] /api/auth//login", () => {
@@ -37,6 +43,18 @@ describe("[POST] /api/auth//login", () => {
       .post("/api/auth/login")
       .send({ username: "jack", password: "1234" });
     expect(res.body.message).toMatch(/welcome, jack/i);
+  }, 750);
+  it("[2] responds with the correct status and message on invalid credentials", async () => {
+    let res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "jackkk", password: "1234" });
+    expect(res.body.message).toMatch(/invalid credentials/i);
+    expect(res.status).toBe(401);
+    res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "jack", password: "12345" });
+    expect(res.body.message).toMatch(/invalid credentials/i);
+    expect(res.status).toBe(401);
   }, 750);
 });
 
