@@ -2,8 +2,7 @@ const request = require("supertest");
 const db = require("../data/dbConfig");
 const server = require("./server");
 const bcrypt = require("bcryptjs");
-const jwtDecode = require("jwt-decode");
-
+const jokes = require("./jokes/jokes-data");
 beforeAll(async () => {
   await db.migrate.rollback();
   await db.migrate.latest();
@@ -62,5 +61,14 @@ describe("[GET] /api/jokes", () => {
   it("[17] requests without a token given invalid token message with 401", async () => {
     const res = await request(server).get("/api/jokes");
     expect(res.body.message).toMatch(/token required/i);
+  }, 750);
+  it("[19] requests with a valid token obtain a list of jokes", async () => {
+    let res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "jack", password: "1234" });
+    res = await request(server)
+      .get("/api/jokes")
+      .set("Authorization", res.body.token);
+    expect(res.body).toMatchObject(jokes);
   }, 750);
 });
